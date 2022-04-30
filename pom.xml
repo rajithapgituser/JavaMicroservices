@@ -49,7 +49,7 @@
 				<artifactId>spring-boot-maven-plugin</artifactId>
 			</plugin>
 		</plugins>
-		<finalName>employee_demo</finalName>
+		<finalName>springboot-backend</finalName>
 	</build>
 
 </project>
