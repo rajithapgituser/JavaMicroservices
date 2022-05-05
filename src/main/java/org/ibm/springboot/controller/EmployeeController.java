@@ -46,7 +46,8 @@ public class EmployeeController {
 	@GetMapping("/employees")
 	public @ResponseBody List<Employee> getAll() throws IOException {
 			db = client.database("employee", false);
-			List<Employee> allDocs = db.getAllDocsRequestBuilder().includeDocs(true).build().getResponse().getDocsAs(Employee.class);
+		       	List<Employee> allDocs = db.getAllDocsRequestBuilder().includeDocs(true).build().getResponse().getDocsAs(Employee.class);
+		        System.out.println("Get Employees List " + allDocs);
 			return allDocs;
 	}
 	
@@ -54,6 +55,7 @@ public class EmployeeController {
 	public ResponseEntity<?> getById(@PathVariable String id) throws IOException {
 			db = client.database("employee", false);
 			Employee employee = db.find(Employee.class, id);
+			System.out.println("Get Employee by ID " + employee);
 			return ResponseEntity.ok(employee);
 	}
 	
@@ -74,8 +76,8 @@ public class EmployeeController {
 			employee.setFirst(employeeDetails.getFirst());
 			employee.setLast(employeeDetails.getLast());
 			employee.setEmailAddress(employeeDetails.getEmailAddress());
-			
 			Response updatedEmployee = db.post(employee);
+		
 			
 		return ResponseEntity.ok(updatedEmployee);
 	}
