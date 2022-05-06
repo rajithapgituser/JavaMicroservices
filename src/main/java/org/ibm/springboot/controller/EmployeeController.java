@@ -37,7 +37,7 @@ public class EmployeeController {
 	@PostMapping("/createEmployees")
 	public @ResponseBody String createEmployee(@RequestBody Employee employee) {
 		db = client.database("employee", false);
-		logger.info("enter into create employee method "+ employee);
+		//logger.info("enter into create employee method "+ employee);
 		Response r = null;
 		if (employee != null) {
 			r = db.post(employee);
@@ -47,19 +47,19 @@ public class EmployeeController {
 	
 	@GetMapping("/getAllEmployees")
 	public @ResponseBody List<Employee> getAll() throws IOException {
-		logger.info("inside Get method"+getAll());
+		//logger.info("inside Get method"+getAll());
 			db = client.database("employee", false);
 		       	List<Employee> allDocs = db.getAllDocsRequestBuilder().includeDocs(true).build().getResponse().getDocsAs(Employee.class);
-		       	logger.info("Get Employees List " + allDocs);
+		       	//logger.info("Get Employees List " + allDocs);
 			return allDocs;
 	}
 	
 	@GetMapping("/getById/{id}")
 	public ResponseEntity<?> getById(@PathVariable String id) throws IOException {
-		logger.info("inside Get method by ID "+ id);
+		//logger.info("inside Get method by ID "+ id);
 			db = client.database("employee", false);
 			Employee employee = db.find(Employee.class, id);
-			logger.info("Get Employees List " + employee);
+			//logger.info("Get Employees List " + employee);
 			return ResponseEntity.ok(employee);
 	}
 	
