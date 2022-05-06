@@ -2,7 +2,6 @@ package org.ibm.springboot.controller;
 
 import java.io.IOException;
 import java.util.List;
-import java.util.logging.Logger;
 
 import org.ibm.springboot.model.Employee;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +15,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -23,21 +23,19 @@ import com.cloudant.client.api.CloudantClient;
 import com.cloudant.client.api.Database;
 import com.cloudant.client.api.model.Response;
 
-
-@CrossOrigin(origins = "http://localhost:8080")
+@CrossOrigin(origins = "http://localhost:3000")
 @RestController
 @RequestMapping("/api/v1")
 public class EmployeeController {
 
-	Logger logger = Logger.getLogger(EmployeeController.class.getName());
 	@Autowired
 	private CloudantClient client;
 	private Database db;
 
-	@PostMapping("/createEmployees")
+	@PostMapping("/employees")
 	public @ResponseBody String createEmployee(@RequestBody Employee employee) {
 		db = client.database("employee", false);
-		//logger.info("enter into create employee method "+ employee);
+		System.out.println("Save Customer " + employee);
 		Response r = null;
 		if (employee != null) {
 			r = db.post(employee);
@@ -45,25 +43,23 @@ public class EmployeeController {
 		return r.getId();
 	}
 	
-	@GetMapping("/getAllEmployees")
+	@GetMapping("/employees")
 	public @ResponseBody List<Employee> getAll() throws IOException {
-		//logger.info("inside Get method"+getAll());
 			db = client.database("employee", false);
 		       	List<Employee> allDocs = db.getAllDocsRequestBuilder().includeDocs(true).build().getResponse().getDocsAs(Employee.class);
-		       	//logger.info("Get Employees List " + allDocs);
+		        System.out.println("Get Employees List " + allDocs);
 			return allDocs;
 	}
 	
-	@GetMapping("/getById/{id}")
+	@GetMapping("/employees/{id}")
 	public ResponseEntity<?> getById(@PathVariable String id) throws IOException {
-		//logger.info("inside Get method by ID "+ id);
 			db = client.database("employee", false);
 			Employee employee = db.find(Employee.class, id);
-			//logger.info("Get Employees List " + employee);
+			System.out.println("Get Employee by ID " + employee);
 			return ResponseEntity.ok(employee);
 	}
 	
-	@DeleteMapping("/deleteById/{id}")
+	@DeleteMapping("/employees/{id}")
 	public ResponseEntity<?> deleteById(@PathVariable String id) throws IOException {
 		db = client.database("employee", false);
 		Employee employee = db.find(Employee.class, ""+id+"");
