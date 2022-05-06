@@ -24,7 +24,7 @@ import com.cloudant.client.api.Database;
 import com.cloudant.client.api.model.Response;
 
 
-@CrossOrigin(origins = "http://localhost:3000")
+@CrossOrigin(origins = "http://169.51.203.100:32404")
 @RestController
 @RequestMapping("/api/v1")
 public class EmployeeController {
